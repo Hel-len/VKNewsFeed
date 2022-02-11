@@ -12,10 +12,9 @@ protocol NewsfeedPresentationLogic {
     func presentData(response: Newsfeed.Model.Response.ResponseType)
 }
 
-class NewsfeedPresenter: NewsfeedPresentationLogic {
+final class NewsfeedPresenter: NewsfeedPresentationLogic {
     weak var viewController: NewsfeedDisplayLogic?
     var cellLayoutCalculator: FeedCellLayoutCalculaterProtocol = FeedCellLayoutCalculator()
-
 
     let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()

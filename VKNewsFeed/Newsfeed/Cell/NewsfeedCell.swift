@@ -33,7 +33,7 @@ protocol FeedCellSizes {
     var totalHeight: CGFloat { get }
 }
 
-class NewsfeedCell: UITableViewCell {
+final class NewsfeedCell: UITableViewCell {
 
     static let reuseId = "NewsfeedCell"
 

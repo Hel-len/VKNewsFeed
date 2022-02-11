@@ -9,26 +9,31 @@ import Foundation
 
 
 protocol DataFetcher {
-    func getFeed(response: @escaping (FeedResponse?) -> Void)
+    func getFeed(for apiSettings: APISettings, response: @escaping (FeedResponse?) -> Void)
 }
 
 struct NetworkDataFetcher: DataFetcher {
 
-    let networking: Networking
+    func getFeed(for apiSettings: APISettings, response: @escaping (FeedResponse?) -> Void) {
+        let api = apiSettings.currentSettings
 
-    init(networking: Networking) {
-        self.networking = networking
-    }
-
-    func getFeed(response: @escaping (FeedResponse?) -> Void) {
-        let params = ["filters": "post,photo"]
-        networking.request(path: API.newsFeed, params: params) { data, error in
-            if let error = error {
-                print("Error received requesting data: \(error.localizedDescription)")
-                response(nil)
-            }
-            let decoded = self.decodeJSON(type: FeedResponseWrapped.self, from: data)
-            response(decoded?.response)
+        let requester = NetworkServiceBuilder()
+            .with(scheme: api.scheme)
+            .with(host: api.host)
+            .with(path: api.path)
+            .with(query: api.queryItems)
+            .with(closure: { data, error in
+                if let _ = error {
+                    response(nil)
+                }
+                let decoded = self.decodeJSON(type: FeedResponseWrapped.self, from: data)
+                response(decoded?.response)
+            })
+            .build()
+        if requester != nil {
+            requester!.request()
+        } else {
+            print("Oops! nil")
         }
     }
 

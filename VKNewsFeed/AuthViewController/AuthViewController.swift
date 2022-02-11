@@ -8,7 +8,7 @@
 import UIKit
 
 
-class AuthViewController: UIViewController {
+final class AuthViewController: UIViewController {
     
     private var authService: AuthService!
     
@@ -16,8 +16,7 @@ class AuthViewController: UIViewController {
         super.viewDidLoad()
         
         authService = SceneDelegate.shared().authService
-        view.backgroundColor = .red
-        
+        view.backgroundColor = #colorLiteral(red: 0.5127319694, green: 0.5525709987, blue: 1, alpha: 1)
     }
     
     @IBAction func signInTouched(_ sender: Any) {

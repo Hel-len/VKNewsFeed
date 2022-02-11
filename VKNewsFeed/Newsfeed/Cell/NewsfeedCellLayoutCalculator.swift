@@ -24,7 +24,7 @@ final class FeedCellLayoutCalculator: FeedCellLayoutCalculaterProtocol {
 
         // MARK: - Work with postLabelFrame
         var postLabelFrame = CGRect(
-            origin: CGPoint(x: Constants.postLabelInsets.left + Constants.cardInsets.left, y: Constants.postLabelInsets.top),
+            origin: CGPoint(x: Constants.postLabelInsets.left, y: Constants.postLabelInsets.top),
             size: CGSize.zero
         )
         if let text = postText, !text.isEmpty {
@@ -78,7 +78,7 @@ struct Constants {
     static let cardInsets = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
     static let topViewHeight: CGFloat = 40
     static let bottomViewHeight: CGFloat = 48
-    static let postLabelInsets = UIEdgeInsets(top: 4 + Constants.topViewHeight + 4, left: 4, bottom: 4, right: 4)
+    static let postLabelInsets = UIEdgeInsets(top: 4 + Constants.topViewHeight + 4, left: 5, bottom: 4, right: 5)
     static let postLabelFont = UIFont.systemFont(ofSize: 14)
     static let commonInsets = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
 }

@@ -14,7 +14,7 @@ protocol AuthServiceDelegate: AnyObject {
     func authServiceSignInDidFail()
 }
 
-class AuthService: NSObject, VKSdkDelegate, VKSdkUIDelegate {
+final class AuthService: NSObject, VKSdkDelegate, VKSdkUIDelegate {
 
     var token: String? {
         return VKSdk.accessToken().accessToken
@@ -28,12 +28,9 @@ class AuthService: NSObject, VKSdkDelegate, VKSdkUIDelegate {
     override init() {
         vkSdk = VKSdk.initialize(withAppId: appId)
         super.init()
-        print("VKSdk.initialize")
         vkSdk.register(self)
         vkSdk.uiDelegate = self
     }
-    
-
     
     func wakeUpSession() {
         let scope = ["wall", "friends"]
@@ -42,9 +39,7 @@ class AuthService: NSObject, VKSdkDelegate, VKSdkUIDelegate {
             switch state {
             case .initialized:
                 VKSdk.authorize(scope)
-                print("initialized")
             case .authorized:
-                print("authorized")
                 delegate?.authServiceSignIn()
             default:
                 delegate?.authServiceSignInDidFail()
@@ -56,7 +51,6 @@ class AuthService: NSObject, VKSdkDelegate, VKSdkUIDelegate {
         if result?.token != nil {
             delegate?.authServiceSignIn()
         }
-        
     }
     
     func vkSdkUserAuthorizationFailed() {

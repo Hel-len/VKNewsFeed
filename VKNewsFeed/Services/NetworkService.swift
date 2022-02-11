@@ -8,28 +8,28 @@
 import Foundation
 
 protocol Networking {
-    func request(path: String, params: [String: String], completion: @escaping (Data?, Error?) -> Void)
+
+    var closure: (Data?, Error?) -> Void { get }
+    var url: URL { get }
+
+    func request()
 }
 
 final class NetworkService: Networking {
 
-    private let authService: AuthService
+    var closure: (Data?, Error?) -> Void
+    var url: URL
 
-    init(authService: AuthService = SceneDelegate.shared().authService) {
-        self.authService = authService
+    init(url: URL, closure: @escaping (Data?, Error?) -> Void) {
+        self.closure = closure
+        self.url = url
     }
 
-    func request(path: String, params: [String : String], completion: @escaping (Data?, Error?) -> Void) {
-        guard let token = authService.token else { return }
-
-        var allParams = params
-        allParams["access_token"] = token
-        allParams["v"] = API.version
-
-        let url = URLConstructor(from: <#T##URLItemsProtocol#>)
+    func request() {
         let request = URLRequest(url: url)
-        let task = createDataTask(from: request, completion: completion)
+        let task = createDataTask(from: request, completion: closure)
         task.resume()
+
     }
 
     private func createDataTask(from request: URLRequest, completion: @escaping (Data?, Error?) -> Void) -> URLSessionDataTask {
@@ -39,17 +39,4 @@ final class NetworkService: Networking {
             }
         }
     }
-
-//    private func url(from path: String, params: [String: String]) -> URL {
-//        var components = URLComponents()
-//
-//        components.scheme = API.scheme
-//        components.host = API.host
-//        components.path = API.newsFeed
-//        components.queryItems = params.map { URLQueryItem(name: $0, value: $1) }
-//        print(components.queryItems!)
-//        print(components.url!)
-//
-//        return components.url!
-//    }
 }

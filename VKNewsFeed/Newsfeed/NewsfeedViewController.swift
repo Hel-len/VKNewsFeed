@@ -12,10 +12,9 @@ protocol NewsfeedDisplayLogic: AnyObject {
     func displayData(viewModel: Newsfeed.Model.ViewModel.ViewModelData)
 }
 
-class NewsfeedViewController: UIViewController, NewsfeedDisplayLogic {
+final class NewsfeedViewController: UIViewController, NewsfeedDisplayLogic {
     
     var interactor: NewsfeedBusinessLogic?
-    var router: (NSObjectProtocol & NewsfeedRoutingLogic)?
 
     private var feedViewModel = FeedViewModel.init(cells: [])
     
@@ -27,17 +26,10 @@ class NewsfeedViewController: UIViewController, NewsfeedDisplayLogic {
         let viewController        = self
         let interactor            = NewsfeedInteractor()
         let presenter             = NewsfeedPresenter()
-        let router                = NewsfeedRouter()
         viewController.interactor = interactor
-        viewController.router     = router
         interactor.presenter      = presenter
         presenter.viewController  = viewController
-        router.viewController     = viewController
     }
-    
-    // MARK: Routing
-    
-    
     
     // MARK: View lifecycle
     
